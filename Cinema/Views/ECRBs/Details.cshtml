@@ -1,0 +1,26 @@
+﻿@model Cinema.Models.ECRB
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ECRB</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ECRBName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ECRBName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ECRBId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

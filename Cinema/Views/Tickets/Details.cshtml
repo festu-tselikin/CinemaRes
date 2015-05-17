@@ -1,0 +1,58 @@
+﻿@model Cinema.Models.Ticket
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Ticket</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Client.Family)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Client.Family)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sector.SectorName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sector.SectorName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NColumn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NColumn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NSpot)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NSpot)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TicketId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

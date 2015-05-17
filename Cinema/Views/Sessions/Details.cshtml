@@ -1,0 +1,50 @@
+﻿@model Cinema.Models.Session
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Session</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Film.FilmName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Film.FilmName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Room.RoomName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Room.RoomName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateSession)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateSession)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeSession)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeSession)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SessionID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
