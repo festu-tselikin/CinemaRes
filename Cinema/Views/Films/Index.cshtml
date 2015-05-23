@@ -1,14 +1,22 @@
 ﻿@model IEnumerable<Cinema.Models.Film>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Фильмы";
 }
 
-<h2>Index</h2>
-
+<h2>Фильмы</h2>
+@if (User.IsInRole("admin"))
+            {
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Добавить", "Create")
 </p>
+            }           
+@using (Html.BeginForm())
+{
+    @Html.Label("Жанр")
+    @Html.DropDownList("GenreId", "Все")
+    <p><input type="submit" value="Поиск" /></p>
+}
 <table class="table">
     <tr>
         <th>
@@ -18,7 +26,7 @@
             @Html.DisplayNameFor(model => model.Genre.GenreName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FilmName)
+            Название фильма
         </th>
         <th></th>
     </tr>
@@ -35,9 +43,14 @@
             @Html.DisplayFor(modelItem => item.FilmName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.FilmId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.FilmId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.FilmId })
+            @if (User.IsInRole("admin"))
+            {
+                @Html.ActionLink("Удалить | ", "Delete", new { id = item.FilmId })
+                @Html.ActionLink("Изменить | ", "Edit", new { id = item.FilmId })
+            }
+            @Html.ActionLink("Подробно", "Details", new { id=item.FilmId }) |
+            @Html.ActionLink("Отзывы", "ThisRating",new {Film=item.FilmName}) |
+            @Html.ActionLink("Оставить отзыв", "AddReview", new { id = item.FilmId })
         </td>
     </tr>
 }

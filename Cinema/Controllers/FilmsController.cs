@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Cinema.Models;
+using PagedList;
 
 namespace Cinema.Controllers
 {
@@ -15,10 +16,21 @@ namespace Cinema.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Films
-        public ActionResult Index()
+        public ActionResult Index(string GenreId)
         {
-            var tbFilm = db.tbFilm.Include(f => f.ECRB).Include(f => f.Genre);
-            return View(tbFilm.ToList());
+            var GenreList = new List<string>();
+            var GenreQry = from d in db.tbGenre
+                           orderby d.GenreName
+                           select d.GenreName;
+            GenreList.AddRange(GenreQry.Distinct());
+            ViewBag.GenreId = new SelectList(GenreList);
+            var query = from m in db.tbFilm
+                        select m;
+            if (!String.IsNullOrEmpty(GenreId))
+            {
+                query = query.Where(s => s.Genre.GenreName==GenreId);
+            }
+            return View(query);
         }
 
         // GET: Films/Details/5
@@ -128,6 +140,42 @@ namespace Cinema.Controllers
             db.tbFilm.Remove(film);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+
+        public ActionResult ThisRating(string Film, int? page)
+        {
+            var query = from m in db.tbReview
+                        select m;
+            query = query.Where(s => s.Film.FilmName == Film);
+            return View(query);
+        }
+        [Authorize(Roles = "user")]
+        public ActionResult AddReview(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Film film = db.tbFilm.Find(id);
+            if (film == null)
+            {
+                return HttpNotFound();
+            }
+            return View(film);
+        }
+        [HttpPost]
+        public ActionResult AddReview(FormCollection FC)
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+            context.tbReview.Add(new Review
+            {
+                NameTitle=FC["TitleString"],
+                AllAbout=FC["ReviewString"],
+                FilmId=Int32.Parse(FC["FilmIdString"])
+            });
+            context.SaveChanges();
+            return RedirectToAction("ThisRating", new { Film =FC["Film"]});
         }
 
         protected override void Dispose(bool disposing)

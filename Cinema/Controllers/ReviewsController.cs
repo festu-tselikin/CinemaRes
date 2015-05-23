@@ -48,7 +48,7 @@ namespace Cinema.Controllers
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ReviewId,FilmId,Title")] Review review)
+        public ActionResult Create([Bind(Include = "ReviewId,FilmId,AllAbout")] Review review)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +82,7 @@ namespace Cinema.Controllers
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ReviewId,FilmId,Title")] Review review)
+        public ActionResult Edit([Bind(Include = "ReviewId,FilmId,AllAbout")] Review review)
         {
             if (ModelState.IsValid)
             {
@@ -108,6 +108,7 @@ namespace Cinema.Controllers
             }
             return View(review);
         }
+       
 
         // POST: Reviews/Delete/5
         [HttpPost, ActionName("Delete")]

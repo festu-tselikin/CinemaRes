@@ -18,6 +18,7 @@ namespace Cinema.Controllers
     public class AccountController : Controller
     {
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -78,6 +79,7 @@ namespace Cinema.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.StreetID = new SelectList(db.tbStreet, "StreetID", "StreetName");
             return View();
         }
 
@@ -96,7 +98,10 @@ namespace Cinema.Controllers
                     Email = model.Email,
                     LastName = model.LastName,
                     FirstName = model.FirstName,
-                    SecName = model.SecName
+                    SecName = model.SecName,
+                    StreetId = model.StreetID,
+                    House = model.House,
+                    Apartment = model.Apartment
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

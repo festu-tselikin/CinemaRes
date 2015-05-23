@@ -14,7 +14,10 @@ namespace Cinema.Models
         [ForeignKey("Film")]
         public int FilmId { get; set; }
         [Display(Name = "Название отзыва")]
-        public string Title { get; set; }
+        [Column(TypeName = "ntext")]
+        [DataType(DataType.MultilineText)]
+        public string AllAbout { get; set; }
+        public string NameTitle { get; set; }
         public virtual Film Film { get; set; }
     }
 }

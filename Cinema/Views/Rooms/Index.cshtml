@@ -1,14 +1,17 @@
 ﻿@model IEnumerable<Cinema.Models.Room>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Залы кинотеатра";
 }
 
-<h2>Index</h2>
+<h2>Залы</h2>
 
+@if (User.IsInRole("admin"))
+{
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Добавить", "Create")
 </p>
+}
 <table class="table">
     <tr>
         <th>
@@ -29,9 +32,12 @@
             @Html.DisplayFor(modelItem => item.Capacity)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RoomId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.RoomId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RoomId })
+            @if (User.IsInRole("admin"))
+            {
+                @Html.ActionLink("Удалить | ", "Delete", new { id = item.RoomId })
+                @Html.ActionLink("Изменить | ", "Edit", new { id = item.RoomId })
+            }
+            @Html.ActionLink("Подробно", "Details", new { id=item.RoomId })
         </td>
     </tr>
 }

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Cinema.Models.Review>
+
+@{
+    ViewBag.Title = "Отзывы";
+}
+
+<h2>Отзывы о фильме</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Название
+        </th>
+        <th>
+            Отзыв
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NameTitle)
+        </td>
+        <td class="container">
+            @Html.TextAreaFor(modelItem => item.AllAbout, new { cols = 60, rows = 10, @class = "form-control", @readonly = "true" })
+        </td>
+        <td>
+            @if (User.IsInRole("admin"))
+            {
+                @Html.ActionLink("Удалить", "Delete", new { id=item.ReviewId })
+            }
+        </td>
+    </tr>
+}
+</table>

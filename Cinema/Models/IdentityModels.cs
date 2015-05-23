@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cinema.Models
 {
@@ -13,11 +14,16 @@ namespace Cinema.Models
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public string SecName { get; set; }
+        public int House { get; set; }
+        public int Apartment { get; set; }
         public virtual ICollection<Ticket> Ticket { get; set; }
         public ApplicationUser()
         {
             Ticket = new List<Ticket>();
         }
+        [ForeignKey("Street")]
+        public int? StreetId { get; set; }
+        public Street Street { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Обратите внимание, что authenticationType должен совпадать с типом, определенным в CookieAuthenticationOptions.AuthenticationType

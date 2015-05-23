@@ -16,6 +16,5 @@ namespace Cinema.Models
         [Display(Name = "Вместимость зала")]
         public int Capacity {get;set;}
         public virtual ICollection<Session> Session { get; set; }
-        public virtual ICollection<Ticket> Ticket { get; set; }
     }
 }

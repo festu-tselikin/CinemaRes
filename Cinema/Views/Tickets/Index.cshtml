@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Cinema.Models.Ticket>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Билеты";
 }
 
-<h2>Index</h2>
+<h2>Билеты</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -12,10 +12,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Client.Family)
+            @Html.DisplayNameFor(model => model.Client.LastName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Sector.SectorName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Session.SessionID)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.NColumn)
@@ -32,10 +35,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Client.Family)
+            @Html.DisplayFor(modelItem => item.Client.LastName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Sector.SectorName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Session.SessionID)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.NColumn)
@@ -47,7 +53,6 @@
             @Html.DisplayFor(modelItem => item.Price)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TicketId }) |
             @Html.ActionLink("Details", "Details", new { id=item.TicketId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.TicketId })
         </td>

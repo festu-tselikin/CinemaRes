@@ -63,6 +63,12 @@ namespace Cinema.Models
         public string FirstName { get; set; }
         [Display(Name = "Отчество")]
         public string SecName { get; set; }
+        [Display(Name = "Номер дома")]
+        public int House { get; set; }
+        [Display(Name = "Номер квартиры")]
+        public int Apartment { get; set; }
+        [Display(Name = "Улица")]
+        public int StreetID { get; set; }
         [Required]
         [StringLength(100, ErrorMessage = "Значение {0} должно содержать не менее {2} символов.", MinimumLength = 6)]
         [DataType(DataType.Password)]

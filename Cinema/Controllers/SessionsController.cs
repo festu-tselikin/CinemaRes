@@ -7,19 +7,39 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Cinema.Models;
+using PagedList;
+using Microsoft.AspNet.Identity;
+
 
 namespace Cinema.Controllers
 {
-    [Authorize(Roles = "admin")]
     public class SessionsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Sessions
-        public ActionResult Index()
+        public ActionResult Index(string RoomId,int? page)
         {
-            var tbSession = db.tbSession.Include(s => s.Film).Include(s => s.Room);
-            return View(tbSession.ToList());
+            //var tbSession = db.tbSession.Include(s => s.Film).Include(s => s.Room);
+            //return View(tbSession.ToList());
+           // searchString1 = DateTime.Today;
+            var RoomList = new List<string>();
+            var RoomQry = from d in db.tbRoom
+                          orderby d.RoomName
+                          select d.RoomName;
+            RoomList.AddRange(RoomQry.Distinct());
+            //ViewBag.RoomId = new SelectList(db.tbRoom, "RoomId", "RoomName");
+            ViewBag.RoomId = new SelectList(RoomList);
+            var query = from m in db.tbSession
+                        orderby m.DateSession
+                        select m;
+            if (!String.IsNullOrEmpty(RoomId))
+            {
+                query = query.Where(s => s.Room.RoomName == RoomId).OrderBy(s=>s.DateSession);
+            }
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(query.ToPagedList(pageNumber,pageSize));
         }
 
         // GET: Sessions/Details/5
@@ -133,5 +153,43 @@ namespace Cinema.Controllers
             }
             base.Dispose(disposing);
         }
+        [Authorize(Roles = "user")]
+        public ActionResult Book(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Session session = db.tbSession.Find(id);
+            if (session == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.SectorID = new SelectList(db.tbSector, "SectorId", "SectorName", session.SessionID);
+            return View(session);
+        }
+
+        [HttpPost]
+        public ActionResult Book(FormCollection FC)
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+            context.tbTicket.Add(new Ticket
+            {
+                ClientId=User.Identity.GetUserId(),
+                Price = 500,
+                SectorId=Int32.Parse(FC["SectorID"]),
+                NColumn=Int32.Parse(FC["Column"]),
+                NSpot=Int32.Parse(FC["Row"]),
+                SessionId=Int32.Parse(FC["SessionID"])
+            });
+            context.SaveChanges();
+            return RedirectToAction("Thanks");
+        }
+
+        public ActionResult Thanks()
+        {
+            return View();
+        }
+
     }
 }

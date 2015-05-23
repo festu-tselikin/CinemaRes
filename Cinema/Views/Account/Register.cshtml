@@ -12,6 +12,25 @@
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
+        @Html.LabelFor(model => model.StreetID, "Улица", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("StreetID", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.StreetID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.House, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.House, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Apartment, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Apartment, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
         @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })

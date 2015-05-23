@@ -1,0 +1,58 @@
+﻿@model Cinema.Models.Session
+
+@{
+    ViewBag.Title = "Бронирование билета";
+}
+
+<h2>Бронирование</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Название фильма
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Film.FilmName)
+        </dd>
+
+        <dt>
+            Зал
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Room.RoomName)
+        </dd>
+
+        <dt>
+            Дата фильма:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateSession)
+        </dd>
+
+        <dt>
+            Время фильма:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeSession)
+        </dd>
+
+    </dl>
+</div>
+@using (Html.BeginForm())
+{
+    <dl class="dl-horizontal">
+        @Html.Hidden("SessionID", @Html.DisplayFor(model => model.SessionID))
+        <dt>Класс Сидений</dt>
+        <dd>@Html.DropDownList("SectorID", null, htmlAttributes: new { })</dd>
+        <dt>Ряд</dt>
+        <dd>@Html.TextBox("Column")</dd>
+        <dt>Место </dt>
+        <dd>@Html.TextBox("Row")</dd>
+    </dl>
+    <input type="submit" value="Забронировать" class="btn btn-success" />
+}

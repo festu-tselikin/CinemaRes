@@ -15,6 +15,9 @@ namespace Cinema.Models
         public string ClientId { get; set; }
         [ForeignKey("Sector")]
         public int SectorId { get; set; }
+        [ForeignKey("Session")]
+        public int SessionId { get; set; }
+        public virtual Session Session { get; set; }
         public virtual Sector Sector { get; set; }
         public virtual ApplicationUser Client {get;set;}
         [Display(Name = "Ряд")]

@@ -1,0 +1,20 @@
+﻿@model Cinema.Models.Film
+
+@{
+    ViewBag.Title = "Добавьте отзыв";
+}
+
+<h2>Оставьте отзыв</h2>
+
+@using (Html.BeginForm())
+    {
+    <div style="text-align:center">
+        @Html.Hidden("FilmIdString", @Html.DisplayFor(model => model.FilmId))
+        @*@Html.TextBox("FilmIdString", @Html.DisplayFor(model => model.FilmId), new { @visible="false"})*@
+        <p>@Html.TextBox("Film", @Html.DisplayFor(model=>model.FilmName), new { @readonly = "true" })</p>
+        <p><b>Ваш отзыв:</b>
+        @Html.TextBox("TitleString")</p>
+       <p>@Html.TextArea("ReviewString", new { cols = 60, rows = 10 })</p>
+       <p><input type="submit" value="Create" class="btn btn-default" /></p>
+    </div>
+    }

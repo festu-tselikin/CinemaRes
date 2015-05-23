@@ -1,27 +1,40 @@
-﻿@model IEnumerable<Cinema.Models.Session>
+﻿@model PagedList.IPagedList<Cinema.Models.Session>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Сеансы";
 }
 
-<h2>Index</h2>
+<h2>Сеансы</h2>
 
+@if (User.IsInRole("admin"))
+{
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Добавить", "Create")
 </p>
+}
+@using (Html.BeginForm())
+{
+    @Html.Label("Зал")
+    @Html.DropDownList("RoomId","Все")
+    @Html.Label("Дата")
+    @Html.TextBox("searchString1", "", new { })
+    <p><input type="submit" value="Поиск" /></p>
+}
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Film.FilmName)
+            Фильм
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Room.RoomName)
+            Зал
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DateSession)
+            Дата
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TimeSession)
+            Время
         </th>
         <th></th>
     </tr>
@@ -41,11 +54,20 @@
             @Html.DisplayFor(modelItem => item.TimeSession)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.SessionID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.SessionID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.SessionID })
+            @if (User.IsInRole("admin"))
+            {
+                @Html.ActionLink("Удалить | ", "Delete", new { id = item.SessionID })
+                @Html.ActionLink("Изменить | ", "Edit", new { id = item.SessionID })
+            }
+            @Html.ActionLink("Подробно", "Details", new { id=item.SessionID }) |
+            @Html.ActionLink("Забронировать", "Book", new { id = item.SessionID })
         </td>
     </tr>
 }
 
 </table>
+<br />
+
+Страница @(Model.PageCount<Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page}))

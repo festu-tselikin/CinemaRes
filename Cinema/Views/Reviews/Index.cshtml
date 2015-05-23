@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Cinema.Models.Review>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Отзывы";
 }
 
-<h2>Index</h2>
+<h2>Отзывы</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -12,10 +12,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Film.FilmName)
+            Фильм
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            Название
+        </th>
+        <th>
+            Отзыв
         </th>
         <th></th>
     </tr>
@@ -26,12 +29,13 @@
             @Html.DisplayFor(modelItem => item.Film.FilmName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Title)
+            @Html.DisplayFor(modelItem => item.NameTitle)
+        </td>
+        <td class="container">
+            @Html.TextAreaFor(modelItem => item.AllAbout, new {cols=60,rows=10, @class="form-control"})
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ReviewId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ReviewId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ReviewId })
+            @Html.ActionLink("Удалить", "Delete", new { id=item.ReviewId })
         </td>
     </tr>
 }
